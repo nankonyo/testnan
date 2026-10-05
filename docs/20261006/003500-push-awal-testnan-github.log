@@ -1,0 +1,9 @@
+Judul: Push awal testnan ke GitHub
+Tipe: lainnya
+Waktu: 2026-10-06T00:35:00+07:00
+Files: .gitignore
+Tags: testnan, git, github, push
+Ringkasan: Push repo testnan ke git@github.com:nankonyo/testnan.git via SSH key lokal. 2 commit di main.
+Ubah:
+- .gitignore: abaikan __pycache__, *.pyc, node_modules (pycache sempat ke-commit, dihapus via rm --cached).
+Uji: git push -u origin main sukses, branch track origin/main.
