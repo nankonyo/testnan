@@ -1,0 +1,13 @@
+Judul: Buat plugin testnan + fix runner fork bomb
+Tipe: fitur
+Waktu: 2026-10-06T00:27:18+07:00
+Files: skills/testnan/SKILL.md, test/run.py, test/test_naming.py, test/test_runner.py, .opencode/plugins/testnan.mjs, hooks/testnan-config.js, hooks/testnan-command.js, hooks/testnan-instructions.js, .opencode/command/testnan.md, package.json, AGENTS.md, README.md
+Tags: testnan, plugin, unittest, runner
+Ringkasan: Plugin testnan baru (mirror docsnan): tiap ubah kode Python wajib ditutup test di test/test_<slug>.py flat tanpa tanggal, 1 runner test/run.py untuk semua/satuan. Fix bug fork bomb: test subprocess pakai keyword cocok diri sendiri.
+Ubah:
+- skills/testnan/SKILL.md: aturan wajib test, lokasi test/test_<slug>.py, anti-duplikat ls+grep, template unittest, runner.
+- test/run.py: wrapper unittest discover, path absolut dari __file__ (anti salah cwd), keyword via -k.
+- test/test_naming.py: kontrak nama flat tanpa tanggal, 3 case.
+- test/test_runner.py: kontrak build_command + 1 smoke test subprocess; keyword tanpa_tanggal_di_nama agar tak rekursi diri (fork bomb), timeout 120, RUN_PY absolut.
+- .opencode/plugins/testnan.mjs, hooks/testnan-*.js, .opencode/command/testnan.md: mirror docsnan, persist mode .testnan-active, command on/off/version.
+Uji: python3 test/run.py lolos 6 test 0.071s. python3 test/run.py <keyword> lolos satuan. node --check 4 file JS lolos.
