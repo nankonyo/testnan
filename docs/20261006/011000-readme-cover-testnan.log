@@ -1,0 +1,11 @@
+Judul: README lengkap + cover testnan
+Tipe: docs
+Waktu: 2026-10-06T01:10:00+07:00
+Files: README.md, package.json, testnan-cover.jpeg
+Tags: testnan, readme, cover, docs
+Ringkasan: README ditulis lengkap ala docsnan (cover gecko, contoh, cara kerja, install, perintah, runner, struktur). Cover tetap di root, direferensikan langsung.
+Ubah:
+- README.md: header cover width 700, badges, contoh hasil + output run, install 1.x/2.x + opencode reload, tabel perintah, aturan isi test, runner, dogfood, struktur, lisensi.
+- package.json: tambah testnan-cover.jpeg ke files agar ikut paket npm.
+- testnan-cover.jpeg: file sudah ada di root (512KB), ikut commit + push.
+Uji: python3 test/run.py 6 test lolos. git push main sukses.
