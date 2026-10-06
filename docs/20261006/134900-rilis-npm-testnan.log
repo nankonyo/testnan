@@ -1,0 +1,9 @@
+Judul: Siapkan rilis npm @nankonyo/testnan
+Tipe: rilis
+Waktu: 2026-10-06T13:49:00+07:00
+Files: package.json
+Tags: testnan, npm, rilis
+Ringkasan: Nama testnan milik orang lain (v1.0.1, 2022). Ganti ke scope @nankonyo/testnan (404 = tersedia). Publish gagal 404 PUT karena belum npm login — user harus login sendiri.
+Ubah:
+- package.json: name testnan -> @nankonyo/testnan.
+Uji: python3 test/run.py OK (6), npm test pass 4 fail 0, npm pack --dry-run 13 file benar (tanpa test/, docs/). npm publish --access public: gagal, belum auth.
