@@ -1,0 +1,10 @@
+Judul: Pasang testnan terbaru ke opencode
+Tipe: config
+Waktu: 2026-10-06T13:55:16+07:00
+Files: ~/.config/opencode/opencode.json (tak berubah)
+Tags: testnan, opencode, plugin, install
+Ringkasan: Path checkout /home/nankonyo/Projects/testnan sudah terdaftar di plugins sejak awal. Plugin lokal dibaca langsung dari checkout, jadi versi terbaru (multi-bahasa, entrypoint index.js) otomatis kepakai. Config tak perlu diubah.
+Ubah:
+- (tak ada) opencode.json tetap 4 entry plugins.
+Uji: node import index.js OK (entry object). skills/testnan/SKILL.md memuat frasa multi-bahasa. Skill testnan aktif di sesi ini sudah deskripsi baru = bukti versi terbaru ke-load.
+Catatan: sesi TUI lama yang masih jalan perlu restart/buka sesi baru agar muat ulang plugin.
