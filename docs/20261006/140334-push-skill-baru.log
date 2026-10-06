@@ -1,0 +1,9 @@
+Judul: Push SKILL.md baru + fix frontmatter
+Tipe: docs
+Waktu: 2026-10-06T14:03:34+07:00
+Files: skills/testnan/SKILL.md
+Tags: testnan, skill, push
+Ringkasan: User tulis ulang SKILL.md (behavior-first, 20 bagian). Penutup frontmatter tertulis ------------ hingga loader readSkill gagal parse. Kembalikan ke --- + indent blok description.
+Ubah:
+- skills/testnan/SKILL.md: isi baru dari user dipertahankan; fix penutup ------------ -> --- dan indent description 2 spasi.
+Uji: parse skill OK (frontmatter 10 baris, body 11647 char), getTestnanInstructions OK. python 6 OK, npm 4 pass. Push a7389f9.
