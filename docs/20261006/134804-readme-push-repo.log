@@ -1,0 +1,9 @@
+Judul: Update README multi-bahasa + push repo
+Tipe: docs
+Waktu: 2026-10-06T13:48:04+07:00
+Files: README.md
+Tags: testnan, readme, push
+Ringkasan: README sesi sebelumnya belum catat index.js dan belum push. Tambah 1 baris struktur, verifikasi test, commit + push f875eae.
+Ubah:
+- README.md: tambah index.js ke blok Struktur.
+Uji: python3 test/run.py 6 OK, npm test 4 pass. git push origin main: b97a947..f875eae. Worktree bersih.
