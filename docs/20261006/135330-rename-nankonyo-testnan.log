@@ -1,0 +1,9 @@
+Judul: Rename paket ke nankonyo-testnan
+Tipe: rilis
+Waktu: 2026-10-06T13:53:30+07:00
+Files: package.json
+Tags: testnan, npm, rilis
+Ringkasan: User minta nama tanpa scope. nankonyo-testnan 404 = tersedia. Ganti nama, verifikasi, push.
+Ubah:
+- package.json: name @nankonyo/testnan -> nankonyo-testnan.
+Uji: npm test pass 4 fail 0, python 6 OK, pack dry-run nama+filename benar. Publish tetap butuh npm login user.
