@@ -1,5 +1,5 @@
 {
-  "name": "@nankonyo/testnan",
+  "name": "nankonyo-testnan",
   "version": "0.1.0",
   "type": "module",
   "description": "Wajibkan tiap ubah kode (semua bahasa) ditutup test di test/test_<slug>.*. Mirip docsnan untuk test.",
