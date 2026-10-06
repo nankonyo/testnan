@@ -1,7 +1,8 @@
 {
   "name": "testnan",
   "version": "0.1.0",
-  "description": "Wajibkan tiap ubah kode Python ditutup test di test/test_<slug>.py. Mirip docsnan untuk test.",
+  "type": "module",
+  "description": "Wajibkan tiap ubah kode (semua bahasa) ditutup test di test/test_<slug>.*. Mirip docsnan untuk test.",
   "keywords": [
     "opencode-plugin",
     "opencode",
@@ -22,6 +23,7 @@
   },
   "files": [
     "AGENTS.md",
+    "index.js",
     "hooks/",
     "skills/",
     ".opencode/",

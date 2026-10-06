@@ -1,0 +1,11 @@
+Judul: Fix testnan tak ter-load di opencode (entrypoint direktori)
+Tipe: fix
+Waktu: 2026-10-06T01:40:15+07:00
+Files: index.js, package.json, hooks/testnan-config.cjs, hooks/testnan-command.cjs, hooks/testnan-instructions.cjs, .opencode/plugins/testnan.mjs
+Tags: testnan, opencode, plugin
+Ringkasan: Plugin terdaftar di opencode.json tapi tak pernah di-load (tak ada di plugin list, tanpa error). Loader resolve direktori lokal ke <dir>/index.js; testnan tak punya file itu.
+Ubah:
+- index.js: entrypoint root baru, re-export default + parseCommandFile dari .opencode/plugins/testnan.mjs.
+- package.json: tambah type module dan index.js ke files.
+- hooks/*.js: rename ke .cjs + betulkan require internal agar tetap CommonJS di bawah type module; path require di testnan.mjs ikut disesuaikan.
+Uji: import root + mock setup OK (skill+command terdaftar, hook context push 1). opencode reload: plugin list tampil testnan local index.js, log loading plugin sukses. python3 test/run.py: 6 tests OK.

@@ -1,59 +1,62 @@
 ---
 name: testnan
 description: >
-  Wajibkan tiap ubah kode Python ditutup test di test/test_<slug>.py.
+  Wajibkan tiap ubah kode (semua bahasa) ditutup test di test/test_<slug>.*.
   Flat di root tanpa tanggal. Cek duplikat dulu, reuse file cocok.
-  Runner test/run.py untuk semua atau satuan. Stdlib unittest saja.
+  Runner bawaan project untuk semua atau satuan. Stdlib/native saja.
 argument-hint: "[on|off]"
 license: MIT
 ---
 
 # Testnan
 
-Tutup setiap eksekusi ubah kode Python dengan test. 1 area = 1 file.
+Tutup setiap eksekusi ubah kode (semua bahasa) dengan test. 1 area = 1 file.
 
 ## Kapan wajib test
 
-Hanya saat ada file Python diubah/dibuat/dihapus, atau bug difix,
+Hanya saat ada file kode diubah/dibuat/dihapus — bahasa apa pun
+(`.py`, `.js`, `.ts`, `.go`, `.rs`, `.java`, dst), atau bug difix,
 fitur ditambah, refactor dijalankan. Berlaku untuk semua jenis
-eksekusi yang sentuh kode Python.
+eksekusi yang sentuh kode.
 
 ## Kapan skip (tanpa test)
 
 - Obrolan biasa: salam, tanya jawab, penjelasan, diskusi konsep.
 - Plan / rencana saja tanpa eksekusi: belum ada file diubah.
 - Baca/browse kode saja tanpa perubahan.
-- Ubah non-Python saja (docs, config): test tak wajib, tulis alasan
-  di log bila pakai docsnan.
+- Ubah non-kode saja (docs, config, markdown): test tak wajib, tulis
+  alasan di log bila pakai docsnan.
 
-Aturan putus: tidak ada file Python diubah = tidak ada test baru.
-Tapi test lama yang relevan tetap harus lolos (`python3 test/run.py`).
+Aturan putus: tidak ada file kode diubah = tidak ada test baru.
+Tapi test lama yang relevan tetap harus lolos.
 
 ## Lokasi dan nama
 
 - Folder: `test/` di root project. Flat. Tanpa subfolder tanggal.
-- Nama: `test_<slug>.py`. Contoh: `test_auth_login.py`,
-  `test_api_cache.py`.
-- Slug: dari area/fitur. Lowercase snake_case. Non-alfanumerik jadi
-  `_`. Maks 50 char. Contoh: "Auth Login" jadi `auth_login`.
+- Nama: `test_<slug>.<ext>`. Contoh: `test_auth_login.py`,
+  `test_auth_login.test.js`, `test_auth_login_test.go`.
+- Ext ikut bahasa + konvensi native. Slug: dari area/fitur. Lowercase
+  snake_case. Non-alfanumerik jadi `_`. Maks 50 char. Contoh:
+  "Auth Login" jadi `auth_login`.
 - Jangan pakai tanggal/jam di nama file. Jangan buat file baru bila
   slug sama sudah ada.
 
 ## Anti-duplikat (wajib sebelum tulis)
 
-1. `ls test/test_*.py` — lihat file yang ada.
-2. `grep -l <keyword> test/test_*.py` — cari area cocok
+1. `ls test/test_*` — lihat file yang ada.
+2. `grep -l <keyword> test/test_*` — cari area cocok
    (nama fungsi, modul, keyword fitur).
 3. Kena: tambah `TestCase`/`test_*` baru di file itu. Jangan buat
    file baru.
-4. Tak kena: buat `test/test_<slug>.py` baru dari template bawah.
+4. Tak kena: buat `test/test_<slug>.<ext>` baru dari template bawah.
 5. Satu area = satu file. Dua file test satu area = salah.
 
-## Isi (stdlib unittest saja)
+## Isi (stdlib/native saja)
 
-Tanpa pytest, tanpa deps tambahan. Butuh Python 3.8+.
+Tanpa deps tambahan bila stdlib cukup. Python 3.8+ pakai `unittest`,
+JS pakai `node:test`, Go pakai `testing`, dst.
 
-Template:
+Template (Python):
 
 ```python
 import unittest
@@ -70,20 +73,33 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
+Template (JS):
+
+```js
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+
+test('tolak password kosong', () => {
+  assert.equal(guardKosong(''), false);
+});
+```
+
 Aturan: 1 file = 1 area. Class per unit, method `test_*` per case.
 Import modul target langsung, bukan via path hack bila bisa.
 Tak boleh ada test kosong tanpa assert.
 
 ## Runner
 
-Satu file: `test/run.py`. Stdlib saja.
+Pakai runner bawaan project. Stdlib saja, jangan tambah
+runner bash/Makefile/pytest bila sudah ada.
 
-- Semua: `python3 test/run.py`
-- Satuan: `python3 test/run.py <keyword>` (cocok nama file,
-  class, atau method; contoh `python3 test/run.py auth_login`
-  atau `python3 test/run.py test_tolak_password_kosong`)
-- Keluar 0 bila lolos semua, non-0 bila ada gagal.
-- Jangan tambah runner bash/Makefile/pytest. Satu runner cukup.
+- Python: `python3 test/run.py` (semua) atau
+  `python3 test/run.py <keyword>` (satuan, cocok nama file/class/method)
+- JS: `npm test` atau `node --test test/*.test.js`
+- Go: `go test ./...`
+- Rust: `cargo test`
+
+Keluar 0 bila lolos semua, non-0 bila ada gagal.
 
 ## Batas
 

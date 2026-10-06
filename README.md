@@ -10,7 +10,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/works%20with-opencode-111111?style=flat-square" alt="Works with opencode">
-  <img src="https://img.shields.io/badge/python-3.8%2B-111111?style=flat-square" alt="Python 3.8+">
+  <img src="https://img.shields.io/badge/tests-stdlib_native-111111?style=flat-square" alt="Stdlib native tests">
   <img src="https://img.shields.io/badge/license-MIT-111111?style=flat-square" alt="MIT license">
 </p>
 
@@ -18,10 +18,10 @@
 
 AI rajin nulis kode, malas nulis test. Testnan memaksanya.
 
-Setiap kali agent mengubah kode Python — fitur, fix, debug, refactor —
-ia wajib menutupnya dengan test di folder `test/` project tersebut.
-Satu area, satu file. Obrolan biasa dan plan tanpa eksekusi tidak
-butuh test.
+Setiap kali agent mengubah kode (bahasa apa pun) — fitur, fix, debug,
+refactor — ia wajib menutupnya dengan test di folder `test/` project
+tersebut. Satu area, satu file. Obrolan biasa dan plan tanpa eksekusi
+tidak butuh test.
 
 ## Contoh hasil
 
@@ -51,19 +51,20 @@ OK
 
 1. Plugin injeksi aturan testnan ke system prompt setiap turn (bila mode `on`).
 2. Agent kerja seperti biasa.
-3. Sebelum tulis test, agent cek duplikat: `ls test/test_*.py` +
-   `grep -l <keyword> test/test_*.py`.
+3. Sebelum tulis test, agent cek duplikat: `ls test/test_*` +
+   `grep -l <keyword> test/test_*`.
 4. File cocok ada: tambah case di file itu, jangan buat baru. Belum ada:
-   buat `test/test_<slug>.py`. Slug snake_case, maks 50 char, tanpa
+   buat `test/test_<slug>.<ext>` (ext ikut bahasa, contoh `.py`,
+   `.test.js`). Slug snake_case, maks 50 char, tanpa
    tanggal, tanpa subfolder.
-5. Verifikasi: `python3 test/run.py` (semua) atau
-   `python3 test/run.py <keyword>` (satuan). Harus hijau.
+5. Verifikasi: runner bawaan project (`python3 test/run.py`,
+   `npm test`, `go test ./...`, dst). Harus hijau.
 
-Kapan wajib: ada file Python diubah/dibuat/dihapus. Kapan skip:
-obrolan biasa, tanya jawab, plan tanpa eksekusi, baca kode tanpa
-perubahan, ubah non-Python saja. Aturan putus: tidak ada file Python
-diubah = tidak ada test baru. Tapi test lama yang relevan tetap
-harus lolos.
+Kapan wajib: ada file kode diubah/dibuat/dihapus (bahasa apa pun).
+Kapan skip: obrolan biasa, tanya jawab, plan tanpa eksekusi, baca kode
+tanpa perubahan, ubah non-kode saja (docs, config, markdown).
+Aturan putus: tidak ada file kode diubah = tidak ada test baru.
+Tapi test lama yang relevan tetap harus lolos.
 
 ## Install
 
@@ -106,8 +107,8 @@ Env override default: `TESTNAN_DEFAULT_MODE=off`.
 
 ## Isi test
 
-Stdlib `unittest` saja, tanpa pytest, tanpa deps tambahan.
-Butuh Python 3.8+.
+Stdlib/native saja, tanpa deps baru bila tak perlu. Python pakai
+`unittest`, JS pakai `node:test`, Go pakai `testing`, dst.
 
 - 1 file = 1 area. Class per unit, method `test_*` per case.
 - Import modul target langsung. Tak boleh ada test kosong tanpa assert.
@@ -115,41 +116,47 @@ Butuh Python 3.8+.
 
 ## Runner
 
-Satu file: `test/run.py`. Stdlib saja. Path absolut dari lokasi
-file, aman dipanggil dari cwd mana pun.
+Pakai runner bawaan project. Stdlib saja.
 
 ```bash
-python3 test/run.py              # semua test
-python3 test/run.py auth_login   # satuan (cocok nama file/class/method)
+python3 test/run.py              # python semua
+python3 test/run.py auth_login   # python satuan
+npm test                         # js semua
+go test ./...                    # go semua
+cargo test                       # rust semua
 ```
 
 Keluar 0 bila lolos semua, non-0 bila ada gagal. Jangan tambah
-runner bash/Makefile/pytest. Satu runner cukup.
+runner bash/Makefile/pytest bila sudah ada.
 
 ## Tes plugin ini
 
 Repo ini dogfood pakai aturannya sendiri:
 
 ```bash
-python3 test/run.py            # semua
-python3 test/run.py naming     # satuan
+python3 test/run.py            # python semua
+python3 test/run.py naming     # python satuan
+npm test                       # js semua
 ```
 
-`test/test_naming.py`: kontrak nama flat tanpa tanggal.
-`test/test_runner.py`: kontrak runner semua/satuan.
+`test/test_naming.py`: kontrak nama flat tanpa tanggal (semua bahasa).
+`test/test_runner.py`: kontrak runner python semua/satuan.
+`test/test_testnan_command.test.js`: kontrak router command JS.
 
 ## Struktur
 
 ```text
+index.js                        # entrypoint root (resolve direktori plugin)
 .opencode/plugins/testnan.mjs  # plugin: command, skills, injeksi prompt
 .opencode/command/testnan.md    # template /testnan
 skills/testnan/SKILL.md         # aturan test + anti-duplikat (sumber injeksi)
-hooks/testnan-config.js         # mode on/off
-hooks/testnan-instructions.js   # bangun teks injeksi
-hooks/testnan-command.js        # router bare/on/off/version
-test/test_naming.py             # kontrak nama flat tanpa tanggal
-test/test_runner.py             # kontrak runner semua/satuan
-test/run.py                     # runner: semua atau satuan via -k
+hooks/testnan-config.cjs        # mode on/off
+hooks/testnan-instructions.cjs  # bangun teks injeksi
+hooks/testnan-command.cjs       # router bare/on/off/version
+test/test_naming.py             # kontrak nama flat tanpa tanggal (semua bahasa)
+test/test_runner.py             # kontrak runner python semua/satuan
+test/test_testnan_command.test.js # kontrak router command JS
+test/run.py                     # runner python: semua atau satuan via -k
 testnan-cover.jpeg              # cover
 docs/YYYYMMDD/                  # log eksekusi harian (ala docsnan)
 ```

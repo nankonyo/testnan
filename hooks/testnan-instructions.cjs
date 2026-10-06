@@ -4,15 +4,15 @@
 
 const fs = require('fs');
 const path = require('path');
-const { DEFAULT_MODE, normalizePersistedMode } = require('./testnan-config');
+const { DEFAULT_MODE, normalizePersistedMode } = require('./testnan-config.cjs');
 
 const SKILL_PATH = path.join(__dirname, '..', 'skills', 'testnan', 'SKILL.md');
 
 function getFallbackInstructions() {
   return 'TESTNAN MODE ACTIVE — level: on\n\n' +
-    'Tutup setiap eksekusi ubah kode Python dengan test di test/test_<slug>.py (flat, tanpa tanggal). ' +
-    'Cek duplikat dulu via `ls test/test_*.py` + `grep`. Ada yang cocok: tambah case di file itu. ' +
-    'Jalankan via `python3 test/run.py` (semua) atau `python3 test/run.py <keyword>` (satuan). Stdlib unittest saja.';
+    'Tutup setiap eksekusi ubah kode (semua bahasa) dengan test di test/test_<slug>.* (flat, tanpa tanggal). ' +
+    'Cek duplikat dulu via `ls test/test_*` + `grep`. Ada yang cocok: tambah case di file itu. ' +
+    'Jalankan via runner bawaan project (`python3 test/run.py`, `npm test`, `go test ./...`, dst). Stdlib/native saja.';
 }
 
 function getTestnanInstructions(mode) {

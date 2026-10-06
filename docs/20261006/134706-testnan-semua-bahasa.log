@@ -1,0 +1,17 @@
+Judul: Testnan agnostik bahasa, hapus spesifik Python
+Tipe: fitur
+Waktu: 2026-10-06T13:47:06+07:00
+Files: AGENTS.md, skills/testnan/SKILL.md, hooks/testnan-instructions.cjs, .opencode/command/testnan.md, .opencode/plugins/testnan.mjs, package.json, README.md, test/test_naming.py, test/test_testnan_command.test.js
+Tags: testnan, multi-bahasa, kontrak-test
+Ringkasan: Aturan testnan hanya picu file Python, padahal repo sendiri JS. Ubah trigger ke semua bahasa, ext ikut konvensi native, runner pakai bawaan project.
+Ubah:
+- AGENTS.md: trigger semua bahasa, nama test_<slug>.<ext>, runner bawaan project.
+- skills/testnan/SKILL.md: kapan wajib/skip agnostik, lokasi multi-ext, isi stdlib/native + template JS, runner python/js/go/rust.
+- hooks/testnan-instructions.cjs: fallback agnostik bahasa.
+- .opencode/command/testnan.md: template when on agnostik.
+- .opencode/plugins/testnan.mjs: fallback description agnostik.
+- package.json: description agnostik.
+- README.md: badge stdlib, cara kerja multi-ext, isi/runner multi-bahasa, dogfood js, struktur .cjs.
+- test/test_naming.py: NAME_RE terima py/js/ts/mjs/cjs/jsx/tsx/go/rs/java/rb/php + .test, cek prefix test_ saja.
+- test/test_testnan_command.test.js: baru, kontrak router bare/on/off/version/unknown via node:test.
+Uji: python3 test/run.py: 6 tests OK. npm test: 4 tests pass.

@@ -2,7 +2,7 @@
 // testnan — command router (pure, no deps).
 // Distinguishes: bare, on, off, version. No ambiguous behavior.
 
-const { normalizeMode } = require('./testnan-config');
+const { normalizeMode } = require('./testnan-config.cjs');
 
 function routeCommand(rawArgs) {
   const arg = String(rawArgs || '').trim().toLowerCase();

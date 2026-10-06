@@ -10,9 +10,9 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const require = createRequire(import.meta.url);
-const { getTestnanInstructions } = require('../../hooks/testnan-instructions');
-const { getDefaultMode, normalizePersistedMode } = require('../../hooks/testnan-config');
-const { routeCommand } = require('../../hooks/testnan-command');
+const { getTestnanInstructions } = require('../../hooks/testnan-instructions.cjs');
+const { getDefaultMode, normalizePersistedMode } = require('../../hooks/testnan-config.cjs');
+const { routeCommand } = require('../../hooks/testnan-command.cjs');
 import { readFileSync } from 'fs';
 
 function pluginVersion() {
@@ -79,7 +79,7 @@ function readSkill() {
       name: frontmatterField(match[1], 'name') || 'testnan',
       description:
         frontmatterField(match[1], 'description') ||
-        'Wajibkan tiap ubah kode Python ditutup test di test/test_<slug>.py.',
+        'Wajibkan tiap ubah kode (semua bahasa) ditutup test di test/test_<slug>.*.',
       path: file,
       content: match[2],
     };
