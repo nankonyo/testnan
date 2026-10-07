@@ -1,0 +1,9 @@
+Judul: Sync README info npm + koreksi drift kode
+Tipe: docs
+Waktu: 2026-10-08T03:24:08+07:00
+Files: README.md
+Tags: testnan, readme, npm, docs
+Ringkasan: README belum ada info install npm padahal nankonyo-testnan 0.1.0 sudah publik. Tambah section npm + betulkan deskripsi dual-API, persist mode, struktur.
+Ubah:
+- README.md: tambah OpenCode 2.x dari npm (npm i nankonyo-testnan + plugins ["nankonyo-testnan"] + pin versi); ubah "Satu file plugin" jadi deskripsi entry root index.js; tambah persist mode (~/.config/testnan/config.json, ~/.config/opencode/.testnan-active); tambah package.json + AGENTS.md di Struktur.
+Uji: python3 test/run.py OK (6), npm test pass 4 fail 0. Edit docs-only, tanpa test baru.

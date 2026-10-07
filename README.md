@@ -68,7 +68,30 @@ Tapi test lama yang relevan tetap harus lolos.
 
 ## Install
 
-Satu file plugin dukung OpenCode 1.x (`server()`) dan 2.x (`id`+`setup`).
+Plugin dukung OpenCode 1.x (`server()`) dan 2.x (`id`+`setup`).
+Entry root `index.js` (resolve direktori plugin).
+
+### OpenCode 2.x (dari npm, disarankan)
+
+Paket sudah rilis publik: `nankonyo-testnan` v0.1.0.
+
+```bash
+npm i nankonyo-testnan
+```
+
+Lalu di `opencode.json(c)`:
+
+```jsonc
+{ "plugins": ["nankonyo-testnan"] }
+```
+
+Pin versi bila perlu: `"nankonyo-testnan@0.1.0"`.
+
+Aktifkan ulang config tanpa restart:
+
+```bash
+opencode reload
+```
 
 ### OpenCode 2.x (dari checkout)
 
@@ -103,7 +126,9 @@ opencode reload
 | `/testnan off` | Matikan sampai dinyalakan lagi |
 | `/testnan version` | Lapor versi terpasang (dari `package.json`) |
 
-Env override default: `TESTNAN_DEFAULT_MODE=off`.
+Env override default: `TESTNAN_DEFAULT_MODE=off` (env menang atas
+`~/.config/testnan/config.json`, default `on`). Mode aktif
+tersimpan di `~/.config/opencode/.testnan-active`.
 
 ## Isi test
 
@@ -147,6 +172,8 @@ npm test                       # js semua
 
 ```text
 index.js                        # entrypoint root (resolve direktori plugin)
+package.json                    # nama nankonyo-testnan, versi, entry npm
+AGENTS.md                       # ringkasan aturan (sumber injeksi ringan)
 .opencode/plugins/testnan.mjs  # plugin: command, skills, injeksi prompt
 .opencode/command/testnan.md    # template /testnan
 skills/testnan/SKILL.md         # aturan test + anti-duplikat (sumber injeksi)
